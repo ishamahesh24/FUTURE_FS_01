@@ -13,7 +13,6 @@ export const Banner = () => {
   const toRotate = ["a Full-stack developer"];
   const period = 2000;
 
-  // ✅ Wrapped tick in useCallback so it can be in the dependency array
   const tick = useCallback(() => {
     let i = loopNum % toRotate.length;
     let fullText = toRotate[i];
@@ -43,7 +42,16 @@ export const Banner = () => {
     }, delta);
 
     return () => clearInterval(ticker);
-  }, [text, delta, tick]); // ✅ now includes tick
+  }, [text, delta, tick]);
+
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = process.env.PUBLIC_URL + "/Isha_resume.pdf"; // File must be in public/
+    link.download = "Isha_resume.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <section className="banner" id="home">
@@ -81,7 +89,8 @@ export const Banner = () => {
                     problems or refining small details, I bring focus,
                     adaptability, and enthusiasm to every project.
                   </p>
-                  <button onClick={() => console.log("connect")}>
+
+                  <button onClick={handleDownload}>
                     Download Resume <ArrowRightCircle size={25} />
                   </button>
                 </div>
